@@ -6,6 +6,7 @@ import gtsam
 import numpy as np
 
 from graphslam.utils import ssa
+from typings.gtsam.gtsam import Pose2
 
 
 @dataclass(frozen=True)
@@ -52,8 +53,16 @@ def relative_pose(
     gtsam.Pose2
         The relative pose increment over the interval.
     """
-    # TODO(a): build the body twist and integrate it over dt with the exponential map.
-    raise NotImplementedError("Task 1 (a)")
+    v_e = vel_encoder
+    v_b = v_e/(1-(car.H/car.L)*np.tan(steer))
+    omega = v_b/car.L * np.tan(steer)
+    # xi is the body twist;
+    xi = np.array([v_b, 0, omega])
+    #  build the body twist and
+    #  integrating the twist over dt with the exponential map;
+    return gtsam.Pose2.Expmap(xi*dt)
+
+    #raise NotImplementedError("Task 1 (a)")
 
 
 # ---------------------------------------------------------------------------
