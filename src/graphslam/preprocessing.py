@@ -90,8 +90,21 @@ def preintegrate(
     np.ndarray, shape=(3, 3)
         Its covariance.
     """
-    # TODO(b): compound the increments and propagate the covariance.
-    raise NotImplementedError("Task 1 (b)")
+    #
+    #compound the increments and propagate the covariance.
+    #raise NotImplementedError("Task 1 (b)")
+    pose = gtsam.Pose2()
+    covariance = np.zeros((3, 3))
+
+    #Compounding process;
+    for increment, increment_cov in zip(poses, covariances):
+        H1 = np.zeros((3, 3), order='F') # different matrix every step
+        H2 = np.zeros((3, 3), order='F') # Increment jacobian . Always in identity frame.
+
+        pose = pose.compose(increment, H1, H2)
+        covariance = H1 @ covariance @ H1.T + H2 @ increment_cov @ H2.T
+
+    return pose, covariance
 
 
 # ---------------------------------------------------------------------------
