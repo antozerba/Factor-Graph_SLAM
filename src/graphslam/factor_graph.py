@@ -146,8 +146,20 @@ def predict_measurement(
     H_landmark : np.ndarray, shape=(2, 2)
         d z / d m_j.
     """
-    # TODO(d): predict [range, bearing] and stack the two rows of each Jacobian.
-    raise NotImplementedError("Task 1 (d)")
+    #  predict
+    H_range_pose = np.zeros((1, 3), order="F")
+    H_range_landmark = np.zeros((1, 2), order="F")
+    H_bearing_pose = np.zeros((1, 3), order="F")
+    H_bearing_landmark = np.zeros((1, 2), order="F")
+
+    r = pose.range(landmark, H_range_pose, H_range_landmark)
+    b = pose.bearing(landmark, H_bearing_pose, H_bearing_landmark)
+
+    z = np.array([r, b.theta()])
+    H_pose = np.vstack([H_range_pose, H_bearing_pose])
+    H_landmark = np.vstack([H_range_landmark, H_bearing_landmark])
+    return z, H_pose, H_landmark
+    #raise NotImplementedError("Task 1 (d)")
 
 
 def inverse_measurement(pose: gtsam.Pose2, measurement: np.ndarray) -> np.ndarray:
