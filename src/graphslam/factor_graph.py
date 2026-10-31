@@ -67,7 +67,13 @@ def predict_pose(previous_pose: gtsam.Pose2, relative_pose: gtsam.Pose2) -> gtsa
         The predicted pose x_k.
     """
     # TODO(c1): compose the relative pose onto the previous pose.
-    raise NotImplementedError("Task 1 (c1)")
+    # raise NotImplementedError("Task 1 (c1)")
+
+    next_pose = gtsam.Pose2()
+    next_pose = previous_pose.compose(relative_pose)
+    return next_pose
+
+    
 
 
 def add_odometry_factor(
@@ -91,7 +97,12 @@ def add_odometry_factor(
         Covariance of that increment, in the tangent space of ``relative_pose``.
     """
     # TODO(c2): add a BetweenFactorPose2 with a full-covariance Gaussian noise model.
-    raise NotImplementedError("Task 1 (c2)")
+    # raise NotImplementedError("Task 1 (c2)")
+    odom_factor = gtsam.BetweenFactorPose2(key_previous, key_current, relative_pose, gtsam.noiseModel.Gaussian.Covariance(relative_pose_cov))
+    graph.add(odom_factor)
+
+
+
 
 
 def add_landmark_factor(
@@ -116,7 +127,13 @@ def add_landmark_factor(
         From :func:`bearing_range_noise_model`, ordered [bearing, range].
     """
     # TODO(c3): add a BearingRangeFactor2D. Mind the argument order.
-    raise NotImplementedError("Task 1 (c3)")
+    # raise NotImplementedError("Task 1 (c3)")
+    bearing = gtsam.Rot2(measurement[1])
+    range = measurement[0]
+    meas_factor = gtsam.BearingRangeFactor2D(pose_key, landmark_key, bearing, range, noise_model)
+    graph.add(meas_factor)
+
+
 
 
 # ---------------------------------------------------------------------------

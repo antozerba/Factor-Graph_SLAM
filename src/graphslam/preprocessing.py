@@ -6,7 +6,7 @@ import gtsam
 import numpy as np
 
 from graphslam.utils import ssa
-from typings.gtsam.gtsam import Pose2
+# from typings.gtsam.gtsam import Pose2
 
 
 @dataclass(frozen=True)
