@@ -97,7 +97,12 @@ def add_odometry_factor(
         Covariance of that increment, in the tangent space of ``relative_pose``.
     """
     # TODO(c2): add a BetweenFactorPose2 with a full-covariance Gaussian noise model.
-    raise NotImplementedError("Task 1 (c2)")
+    # raise NotImplementedError("Task 1 (c2)")
+    odom_factor = gtsam.BetweenFactorPose2(key_previous, key_current, relative_pose, gtsam.noiseModel.Gaussian.Covariance(relative_pose_cov))
+    graph.add(odom_factor)
+
+
+
 
 
 def add_landmark_factor(
