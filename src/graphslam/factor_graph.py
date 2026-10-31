@@ -67,7 +67,13 @@ def predict_pose(previous_pose: gtsam.Pose2, relative_pose: gtsam.Pose2) -> gtsa
         The predicted pose x_k.
     """
     # TODO(c1): compose the relative pose onto the previous pose.
-    raise NotImplementedError("Task 1 (c1)")
+    # raise NotImplementedError("Task 1 (c1)")
+
+    next_pose = gtsam.Pose2()
+    next_pose = previous_pose.compose(relative_pose)
+    return next_pose
+
+    
 
 
 def add_odometry_factor(
