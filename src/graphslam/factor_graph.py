@@ -224,7 +224,17 @@ def assemble_joint_covariance(
         P, whose block (i, j) is the covariance between ``keys[i]`` and ``keys[j]``.
     """
     # TODO(e): fill P block by block from joint_marginal.at(key_i, key_j).
-    raise NotImplementedError("Task 1 (e)")
+    # raise NotImplementedError("Task 1 (e)")
+    dims = [joint_marginal.at(key, key).shape[0] for key in keys]
+    offsets = np.concatenate(([0], np.cumsum(dims))).astype(int)
+
+    P = np.zeros((offsets[-1], offsets[-1]))
+    for i, key_i in enumerate(keys):
+        for j, key_j in enumerate(keys):
+            block = joint_marginal.at(key_i, key_j)
+            P[offsets[i] : offsets[i + 1], offsets[j] : offsets[j + 1]] = block
+
+    return P
 
 
 # ---------------------------------------------------------------------------
