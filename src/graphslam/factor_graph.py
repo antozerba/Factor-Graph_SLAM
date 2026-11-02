@@ -268,7 +268,18 @@ def innovation_covariance(
         The innovation covariance ``S``.
     """
     # TODO(f): build the stacked H, build the block-diagonal R, and form S.
-    raise NotImplementedError("Task 1 (f)")
+    # raise NotImplementedError("Task 1 (f)")
+    n = len(jacobians_pose)
+
+    H = np.zeros((2 * n, 3 + 2 * n))
+    for i, (H_pose, H_landmark) in enumerate(zip(jacobians_pose, jacobians_landmark)):
+        H[2 * i : 2 * i + 2, 0:3] = H_pose
+        H[2 * i : 2 * i + 2, 3 + 2 * i : 5 + 2 * i] = H_landmark
+
+    R = np.kron(np.eye(n), measurement_cov)
+
+    S = H @ joint_covariance @ H.T + R
+    return S
 
 
 # ---------------------------------------------------------------------------
