@@ -14,7 +14,7 @@ sensor:                          # sensor limits, not tuning values
   range_local: 85.0              # local map offered to association: reach plus a margin
   bearing_local_deg: 125.0
 tentative:                       # landmark birth: seen in M of the last N steps
-  M: 2                           # TODO tune
+  M: 3                           # TODO tune
   N: 3                           # TODO tune
   gate: 0.5                      # TODO tune: matching distance [m]
 association:
