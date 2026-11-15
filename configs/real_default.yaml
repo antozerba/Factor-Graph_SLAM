@@ -1,11 +1,19 @@
 # Baseline tuning for the Victoria Park data set.
 # Everything marked TODO tune is yours to experiment with in Task 3.
 noise:
-  sigma_odom_x: 0.3              # TODO tune
-  sigma_odom_y: 0.3              # TODO tune
-  sigma_odom_yaw_deg: 0.6        # TODO tune
-  sigma_range: 0.2               # TODO tune
-  sigma_bearing_deg: 0.5         # TODO tune
+  #Q 
+  # sigma_odom_x: 0.3              # TODO tune
+  # sigma_odom_y: 0.3              # TODO tune
+  # sigma_odom_yaw_deg: 0.6        # TODO tune
+  sigma_odom_x: 0.28
+  sigma_odom_y: 0.28
+  sigma_odom_yaw_deg: 0.6
+  #R
+  # sigma_range: 0.2               # TODO tune
+  # sigma_bearing_deg: 0.5         # TODO tune
+  sigma_range: 0.07
+  sigma_bearing_deg: 0.24
+  #P0
   sigma_init_pose_x: 0.1
   sigma_init_pose_y: 0.1
   sigma_init_pose_yaw_deg: 0.1
@@ -20,8 +28,10 @@ tentative:                       # landmark birth: seen in M of the last N steps
   gate: 0.2                      # TODO tune: matching distance [m]
 association:
   method: jcbb
-  alpha_individual: 0.9999       # TODO tune: a confidence; closer to 1 is a looser gate
-  alpha_joint: 0.9999            # TODO tune: a confidence; closer to 1 is a looser gate
+  # alpha_individual: 0.9999       # TODO tune: a confidence; closer to 1 is a looser gate
+  # alpha_joint: 0.9999            # TODO tune: a confidence; closer to 1 is a looser gate
+  alpha_individual: 0.999999      # TODO tune: a confidence; closer to 1 is a looser gate
+  alpha_joint: 0.999999            # TODO tune: a confidence; closer to 1 is a looser gate
   inject_wrong_at_step: null
 backend:
   solver: isam2
